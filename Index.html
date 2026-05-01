@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Library</title>
+
+<style>
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: white;
+    background: url(pexels-ali-haider-2158504419-35600382.jpg) center/cover no-repeat;
+    background-attachment: fixed;
+}
+
+/* Overlay */
+.overlay {
+    z-index: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+}
+
+/* Страницы */
+.page {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+.hidden { display: none; }
+
+/* Главная */
+.home { justify-content: center; text-align: center; }
+.home h1 { font-size: 40px; }
+.home p { max-width: 500px; color: #ddd; }
+.start-btn {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Карточки */
+.container {
+    margin-top: 90px;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    position: relative;
+    z-index: 10;
+}
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+.card:hover { transform: scale(1.05); }
+.card img { width: 100%; height: 160px; object-fit: contain; border-radius: 15px; }
+.card button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Кнопки */
+.back-btn {
+    z-index: 1000;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+/* Кнопки классов аккордеон */
+.class-switch {
+    z-index: 1000;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.class-switch button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+.sub-classes {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .container { width: 90%; gap: 20px; }
+    .card img { height: 140px; }
+    .home h1 { font-size: 28px; }
+    .class-switch {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 99999;
+    }
+
+    .container {
+        margin-top: 140px;
+    }
+}
+</style>
+</head>
+<body>
+    
+
+
+<div class="overlay"></div>
+
+<!-- Главная -->
+<div class="page home" id="homePage">
+    <h1>📚 School Library</h1>
+    <p>Добро пожаловать в онлайн библиотеку нашей школы! Здесь можно найти материалы и книги по различным предметам: физика, математика, химия и другие.</p>
+    <button class="start-btn" onclick="openLibrary()">Книги</button>
+</div>
+
+<!-- Предметы -->
+<div class="page hidden" id="libraryPage">
+    <button class="back-btn" onclick="goHome()">← Главное меню</button>
+    <div class="container">
+        <div class="card">
+            <img src="physics.png">
+            <h3>Физика</h3>
+            <button onclick="openBooks('physics')">Открыть</button>
+        </div>
+        <div class="card">
+            <img src="Gemini_Generated_Image_t21q71t21q71t21q.png">
+            <h3>Математика</h3>
+            <button onclick="openBooks('math')">Открыть</button>
+        </div>
+        <div class="card">
+            <img src="chem.png">
+            <h3>Химия</h3>
+            <button onclick="openBooks('chem')">Открыть</button>
+        </div>
+        <div class="card">
+            <img src="CS.png" alt="Информатика">
+            <h3>Информатика</h3>
+            <button onclick="openBooks('Info')">Открыть</button>
+        </div>
+        <div class="card">
+            <img src="Bio.png" alt="Биология">
+            <h3>Биология</h3>
+            <button onclick="openBooks('Bio')">Открыть</button>
+        </div>
+
+        <div class="card">
+            <img src="okak.png" alt="Прочие">
+            <h3>Окружающий мир</h3>
+            <button>Открыть</button>
+        </div>
+
+        <div class="card">
+            <img src="Litra.png" alt="Литература">
+            <h3>Литература</h3>
+            <button onclick="openBooks('Lit')">Открыть</button>
+        </div>
+
+        <div class="card">
+            <img src="RL.png" alt="Русский язык">
+            <h3>Русский язык</h3>
+            <button onclick="openBooks('Rus')">Открыть</button>
+        </div>
+
+        <div class="card">
+            <img src="EL.png" alt="Английский язык">
+            <h3>Английский язык</h3>
+            <button onclick="openBooks('Eng')">Открыть</button>
+        </div>
+        <div class="card">
+            <img src="Geo.png" alt="География">
+            <h3>Геометрия</h3>
+            <button onclick="openBooks('Geo')">Открыть</button>
+        </div>
+
+        <div class="card">
+            <img src="Astro.png" alt="Астрономия">
+            <h3>Астрономия</h3>
+            <button>Открыть</button>
+        </div>
+        <div class="card">
+            <img src="prochie.png" alt="Прочие">
+            <h3>Прочие</h3>
+            <button>Открыть</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Книги >-->
+<div class="page hidden" id="booksPage">
+    <button class="back-btn" onclick="goBack()">← Назад</button>
+    <div class="class-switch" id="classSwitch"></div>
+    <div class="container" id="booksContainer"></div>
+</div>
+
+<script>
+// ===== Переходы =====
+function openLibrary() { document.getElementById("homePage").classList.add("hidden"); document.getElementById("libraryPage").classList.remove("hidden"); }
+function goHome() { document.getElementById("libraryPage").classList.add("hidden"); document.getElementById("homePage").classList.remove("hidden"); }
+function goBack() { document.getElementById("booksPage").classList.add("hidden"); document.getElementById("libraryPage").classList.remove("hidden"); }
+
+// ===== Данные =====
+let currentSubject = "";
+const booksData = {
+    physics: {
+        7:[{title:"Физика 7 класс А.В Пёрышкин",img:"Ph7.jpg", file: "BPh7.pdf"},{title:"Сборник задач Волков 7-9 класс",img:"PhV7.jpg", file: "PhV79.pdf"}, {title:"Сборник задач Лукашик 7-9 класс",img:"PhL7.jpg", file: "LPh79.pdf"}],
+        8:[{title:"Физика 8 класс А.В Пёрышкин",img:"Ph8.jpg", file: "BPh8.pdf"},{title:"Сборник задач Волков 7-9 класс",img:"PhV7.jpg", file: "PhV79.pdf"}, {title:"Сборник задач Лукашик 7-9 класс",img:"PhL7.jpg", file: "LPh79.pdf"}],
+        9:[{title:"Физика 9 класс А.В Пёрышкин",img:"Ph9.jpg", file: "BPh9.pdf"},{title:"Сборник задач Волков 7-9 класс",img:"PhV7.jpg", file: "PhV79.pdf"}, {title:"Сборник задач Лукашик 7-9 класс",img:"PhL7.jpg", file: "LPh79.pdf"}],
+        10: [{ title: "Физика 10 класс Г.Я. Мякишев", img: "Ph10.jpg", file: "BPh10.pdf"}, {title:"Сборник задач Волков 10-11 класс",img:"PhV9.webp", file: "PhV1011.pdf"}],
+        11: [{ title: "Физика 11 класс Г.Я. Мякишев", img: "Ph11.webp", file: "BPh11.pdf"} , {title:"Сборник задач Волков 10-11 класс",img:"PhV9.webp" , file: "PhV1011.pdf"}   ], 
+        Прочие: [
+            { title: " " , img: ""}
+        ]
+    },
+    math: {
+        
+        1:[{title:"Математика 1 класс Л.Г петерсон часть 1", img:"M1P1.webp", file: "BM1P1.pdf"},{title:"Математика 1 класс Л.Г петерсон часть 2", img:"M1P2.webp", file: "BM1P2.pdf"},{title:"Математика 1 класс Л.Г петерсон часть 3", img:"M1P3.webp", file: "BM1P3.pdf"}],
+        2:[{title:"Математика 2 класс Л.Г петерсон часть 1", img:"M2P1.webp", file: "BM2P1.pdf"},{title:"Математика 2 класс Л.Г петерсон часть 2", img:"M2P2.webp", file: "BM2P2.pdf"},{title:"Математика 2 класс Л.Г петерсон часть 3", img:"M2P3.jpg", file: "BM2P3.pdf"}],
+        3:[{title:"Математика 3 класс часть 1 Л.Г петерсон",img:"M3P1.webp", file: "BM3P1.pdf"}, {title:"Математика 3 класс часть 2 Л.Г петерсон",img:"M3P2.jpg", file: "BM3P2.pdf"}, {title:"Математика 3 класс часть 3 Л.Г петерсон",img:"M3P3.webp", file:"BM3P3.pdf"}],
+        4:[{title:"Математика 4 класс часть 1 Л.Г петерсон",img:"M4P1.jpg", file: "BM4P1.pdf"}, {title:"Математика 4 класс часть 2 Л.Г петерсон",img:"M4P2.jpg", file:"BM4P2.pdf"}, {title:"Математика 4 класс часть 3 Л.Г петерсон",img:"M4P3.jpg", file:"BM4P3.pdf"}],
+        5:[{title:"Математика 5 класс Никольский",img:"M5.webp" , file: "BMV.pdf"}],
+        6:[{title:"Математика 6 класс Никольский",img:"M6.webp", file: "BM6.pdf"}],
+        7:[{title:"Математика 7 класс Нико  льский",img:"M7'.jpg", file: "BM7.pdf"}],
+        8:[{title:"Математика 8 класс Никольский",img:"M8.webp", file: "BM8.pdf"}],
+        9:[{title:"Математика 9 класс Никольский",img:"M9.jpg", file: "BM9.pdf"}],
+        10:[{title:"Математика 10 класс Никольский",img:"M10.webp", file: "BM10.pdf"}],
+        11:[{title:"Математика 11 класс Никольский",img:"M11.webp", file: "BM11.pdf"}],
+        Прочие: [
+            { title: " " , img: ""}
+        ]
+    },
+    chem: {
+        8:[{title:"Химия 8 класс О.С Габриелян",img:"Ch8o.webp"}, {title:"Химия 8 класс О.С Габриелян",img:"Ch8.webp", file: "BCh81.pdf"}],
+        9:[{title:"Химия 9 класс О.С Габриелян",img:"Ch9.webp"}],
+        10:[{title:"Химия 10 класс О.С Габриелян",img:"Ch10o.webp"}, {title:"Химия 10 класс О.С Габриелян",img:"Ch10.webp"}],
+        11:[{title:"Химия 11 класс О.С Габриелян",img:"Ch11.jpg"}]
+
+    },
+    Info: {
+        1:[{title:"Информатика 1 класс Т.А Рученко" , img: "Info1.jpg"}],
+        2:[{title:"Информатика 2 класс Т.А Рученко" , img: "Info2.jpg"}, {title:"Информатика 2 класс часть1 Н.В Матвеева" , img: "Info2p1.jpg"}, {title:"Информатика 2 класс часть2 Н.В Матвеева" , img: "Info2p2.jpg"}],
+        3:[{title:"Информатика 3 класс Т.А Рученко" , img: "Info3.webp"}, {title:"Информатика 3 класс часть1 Н.В Матвеева" , img: "Info3p1.jpg"}, {title:"Информатика 3 класс часть2 Н.В Матвеева" , img: "Info3p2.jpg"}],
+        4:[{title:"Информатика 4 класс Т.А Рученко" , img: "Info4.jpg"}, {title:"Информатика 4 класс часть1 Н.В Матвеева" , img: "Info4p1.jpg"}, {title:"Информатика 4 класс часть2 Н.В Матвеева" , img: "Info4p2.jpg"}],
+        5:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        6:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        7:[{title:"1000 задач по п5рограмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        8:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        9:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        10:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        11:[{title:"1000 задач по програмированию М.Э Абрамьян" , img: "1000za.jpg",file: "511info.pdf"}],
+        Прочие: [
+            { }
+        ]
+    },
+    Bio: {
+        5:[{title:"природоведение Н.И Сонин" , img:"Bio5.webp"}],
+        6:[{title:"Биология 6ой класс 'Живой организм' Н.И Сонин" , img:"Bio6.webp"}],
+        7:[{title:"Биология 7ой класс 'Много образие живых организмов' Н.И Сонин" , img:"Bio7.webp"}],
+        8:[{title:"Биология 8ой класс 'Человек' Н.И Сонин" , img:"Bio8.webp"}],
+        9:[{title:"Биология 9ый класс 'Общие закономерности' Н.И Сонин" , img:"Bio9.jpg"}],
+        10:[{title:"Биология 10-11ый класс 'Общая биология' Н.И Сонин" , img:"Bio1011.jpg"}],
+        11:[{title:"Биология 10-11ый класс 'Общая биология' Н.И Сонин" , img:"Bio1011.jpg"}],
+    },
+    Eng: {
+        1:[{title: "Английский Английскому языку 1 класс Верещагина" , img: "Eng1.webp"}],
+        2:[{title: "Книга по Английскому языку 2 класс часть 1 Верещагина" , img: "Eng2p1.webp"}, {title: "книга по Английскому языку 2 класс часть 2 Верещагина" , img: "Eng2p2.webp"}],
+        3:[{title: "Книга по Английскому языку 3 класс часть 1 Верещагина" , img: "Eng3p1.jpg"}, {title: "книга по Английскому языку 3 класс часть 2 Верещагина" , img: "Eng3p2.jpg"}],
+        4:[{title: "Книга по Английскому языку 4 класс часть 1 Верещагина" , img: "Eng4p1.webp"}, {title: "книга по Английскому языку 4 класс часть 2 Верещагина" , img: "Eng4p2.jpg"}],
+        5:[{title: "Книга по Английскому языку 5 класс часть 1 Афанасьева" , img: "ENG5p1.webp"}, {title: "книга по Английскому языку 5 класс часть 2  Афанасьева" , img: "ENG5p2.jpg"}],
+        6:[{title: "Книга по Английскому языку 6 класс Афанасьева" , img: "ENG6.webp"}],
+        7:[{title: "Книга по Английскому языку 7 класс Афанасьева" , img: "ENG7.jpg"}],
+        8:[{title: "Книга по Английскому языку 8 класс Афанасьева" , img: "ENG8.jpg"}],
+        9:[{title: "Книга по Английскому языку 9 класс Афанасьева" , img: "ENG9.webp"}],
+        10:[{title: "Книга по Английскому языку 10 класс Афанасьева" , img: "ENG10.webp"}],
+        11:[{title: "Книга по Английскому языку 11 класс Афанасьева" , img: "ENG11.webp"}],
+    },
+    Geo: {
+        5: [{title: "Геометрия 7-9 класс А.В Погорелов", img: "Geo5.jpg"}],
+        6: [{title: "Геометрия 7-9 класс А.В Погорелов", img: "Geo5.jpg"}],
+        7: [{title: "Геометрия 7-9 класс А.В Погорелов", img: "Geo5.jpg"}],
+        8: [{title: "Геометрия 7-9 класс А.В Погорелов", img: "Geo5.jpg"}],
+        9: [{title: "Геометрия 7-9 класс А.В Погорелов", img: "Geo5.jpg"}],
+        10: [{title: "Геометрия 10-11 класс А.В Погорелов", img: "Geo10'.jpg"}],
+        11: [{title: "Геометрия 10-11 класс А.В Погорелов", img: "Geo10'.jpg"}],
+    },
+    Rus: {
+        1: [{title: "Русский язык 1ый класс Т.Г Рамзаева", img: "Rus1.webp"}],
+        2: [{title: "Русский язык 2ой класс часть 1 Т.Г Рамзаева", img: "Rus2p1.webp"},{title: "Русский язык 2ой класс часть 2 Т.Г Рамзаева", img: "Rus2p2.webp"}],
+        3: [{title: "Русский язык 3ий класс часть 1 Т.Г Рамзаева", img: "Rus3p1.jpg"},{title: "Русский язык 3ий класс часть 2 Т.Г Рамзаева", img: "Rus3p2.jpg"}],
+        4: [{title: "Русский язык 4ый класс часть 1 Т.Г Рамзаева", img: "Rus4p1.webp"},{title: "Русский язык 4ый класс часть 2 Т.Г Рамзаева", img: "Rus4p2.webp"}],
+        5: [{title: "Русский язык 5ый класс часть 1 Тростенцова", img: "Rus5p1.webp"},{title: "Русский язык 5ый класс часть 2 Тростенцова", img: "Rus5p2.webp"}],
+        6: [{title: "Русский язык 6ой класс часть 1 Тростенцова", img: "Rus6p1.jpg"},{title: "Русский язык 6ой класс часть 2 Тростенцова", img: "Rus6p2.jpg"}],
+        7: [{title: "Русский язык 7ой класс Тростенцова", img: "Rus7.webp"}],
+        8: [{title: "Русский язык 8ой класс Тростенцова", img: "Rus8.webp"}],
+        9: [{title: "Русский язык 9ый класс Тростенцова", img: "Rus9.jpg"}],
+        10: [{title: "Русский язык 10 - 11 ый класс Власенков", img: "Rus1011.webp"}],
+        11: [{title: "Русский язык 10 - 11 ый класс Власенков", img: "Rus1011.webp"}],
+    },
+    Lit: {
+        1: [{title: "Литература 1ый класс Л.Ф Климанова часть 1" , img: "Lit1p1.webp", file: "BL1P1.pdf"} , {title: "Литература 1ый класс Л.Ф Климанова часть 2" , img: "Lit1p2.png", file: "BL1P2.pdf"}],
+        2: [{title: "Литература 2ой класс Л.Ф Климанова часть 1" , img: "Lit2p1.webp", file: "BL2P1.pdf"} , {title: "Литература 2ой класс Л.Ф Климанова часть 2" , img: "Lit2p2.png", file: "BL2P2.pdf"}],
+        3: [{title: "Литература 3ий класс Л.Ф Климанова часть 1" , img: "Lit3p1.webp", file: "BL3P1.pdf"} , {title: "Литература 3ий класс Л.Ф Климанова часть 2" , img: "Lit3p2.png", file: "BL3P2.pdf"}],
+        4: [{title: "Литература 4ый класс Л.Ф Климанова часть 1" , img: "Lit4p1.jpg", file: "LB4P1.pdf"} , {title: "Литература 4ый класс Л.Ф Климанова часть 2" , img: "Lit4p2.png", file: "LB4P2.pdf"}],
+        5: [{title: "Литература 5ый класс В.Я Коровина часть 1" , img: "Lit5p1.jpg"} , {title: "Литература 5ый класс В.Я Коровина часть 2" , img: "Lit5p2.webp"}],
+        6: [{title: "Литература 6ой класс В.Я Коровина часть 1" , img: "Lit6p1.webp"} , {title: "Литература 6ой класс В.Я Коровина часть 2" , img: "Lit6p2.jpg"}],
+        7: [{title: "Литература 7ой класс В.Я Коровина часть 1" , img: "Lit7p1.webp"} , {title: "Литература 7ой класс В.Я Коровина часть 2" , img: "Lit7p2.webp"}],
+        8: [{title: "Литература 8ой класс В.Я Коровина часть 1" , img: "Lit8p1.webp"} , {title: "Литература 8ой класс В.Я Коровина часть 2" , img: "Lit8p2.webp"}],
+        9: [{title: "Литература 9ый класс В.Я Коровина часть 1" , img: "Lit9p1.jpg"} , {title: "Литература 9ый класс В.Я Коровина часть 2" , img: "Lit9p2.webp"}],
+        10: [{title: "Литература 10ый класс В.Я Коровина часть 1" , img: "Lit10p1.webp"} , {title: "Литература 10ый класс В.Я Коровина часть 2" , img: "Lit10p2.jpg"}],
+        11: [{title: "Литература 11ый класс В.Я Коровина часть 1" , img: "Lit11p1.jpg"} , {title: "Литература 11ый класс В.Я Коровина часть 2" , img: ""}],
+
+    }
+
+};
+
+// ===== Открыть книги =====
+function openBooks(subject) {
+    currentSubject = subject;
+    document.getElementById("libraryPage").classList.add("hidden");
+    document.getElementById("booksPage").classList.remove("hidden");
+    generateClassButtons();
+}
+
+// ===== Генерация кнопок классов (аккордеон) =====
+function generateClassButtons() {
+    const container = document.getElementById("classSwitch");
+    container.innerHTML = "";
+    const classes = Object.keys(booksData[currentSubject])
+    .sort((a,b)=> {
+        if (isNaN(a)) return 1;
+        if (isNaN(b)) return -1;
+        return a - b;
+    });
+    if(classes.length===0) return;
+
+    const mainBtn = document.createElement("button");
+    mainBtn.textContent = classes[0];
+    container.appendChild(mainBtn);
+
+    const subContainer = document.createElement("div");
+    subContainer.classList.add("sub-classes");
+    container.appendChild(subContainer);
+
+    classes.slice(1).forEach(cls=>{
+        const btn=document.createElement("button");
+        btn.textContent=cls;
+        btn.onclick=()=>changeClass(cls);
+        subContainer.appendChild(btn);
+    });
+
+    mainBtn.onclick=()=>{
+        subContainer.style.display=subContainer.style.display==="flex"?"none":"flex";
+        changeClass(classes[0]);
+    }
+
+    changeClass(classes[0]);
+}
+
+// ===== Смена класса =====
+function changeClass(cls) {
+    const container=document.getElementById("booksContainer");
+    container.innerHTML="";
+    const books=booksData[currentSubject]?.[cls]||[];
+    books.forEach(book=>{
+        container.innerHTML+=`
+    <div class="card">
+        <img src="${book.img}">
+        <h3>${book.title}</h3>
+        <button onclick="openPDF('${book.file}')">Читать</button>
+    </div>`;
+    });
+}
+function openPDF(file) {
+    window.open(file, '_blank');
+}
+</script>
+
+</body>
+</html>
